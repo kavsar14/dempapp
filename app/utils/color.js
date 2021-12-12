@@ -6,5 +6,7 @@ export const color = {
    LIGHTGREY: '#D3D3D3',
    RED: '#FF0000',
    FBLOGIN: '#4267b2',
-   GOOGLELOGIN: '#db4a39'
+   GOOGLELOGIN: '#db4a39',
+   YELLOW: '#FFFF00',
+   GREEN: '#00FF00'
 }

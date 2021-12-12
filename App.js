@@ -9,11 +9,11 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from "react-redux";
 import { LogBox } from 'react-native';
+import TabNavigator from './app/navigations/tab-navigation';
 
 import store from './app/state/store';
 import ActivityIndicatorComponent from './app/components/ActivityIndicatorComponent/ActivityIndicatorComponent';
 import ToastMessage from './app/components/ToastMessage';
-import DrawerNavigator from './app/navigations/drawer-navigation';
   
  LogBox.ignoreAllLogs();
  
@@ -23,7 +23,7 @@ import DrawerNavigator from './app/navigations/drawer-navigation';
        <NavigationContainer>
           <ActivityIndicatorComponent />
           <ToastMessage />
-          <DrawerNavigator />
+          <TabNavigator />
        </NavigationContainer>
      </Provider>
    );

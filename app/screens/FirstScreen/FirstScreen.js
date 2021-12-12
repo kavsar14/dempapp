@@ -12,17 +12,12 @@ import { useIsFocused } from '@react-navigation/native';
 
 import HeaderTitle from '../../components/HeaderTitle';
 import UserDataView from '../../components/UserDataView/UserDataView';
-import CommonButton from '../../components/CommonButton/CommonButton';
 
 import { color } from '../../utils/color';
-import { images } from '../../assets/appImages';
-import setHeaderLeft from '../../utils/setHeaderLeft';
 import { UsersAction } from '../../state/ducks/user';
-import styles from './styles'
-import { routes } from '../../utils/route';
  
 const FirstScreen = ({navigation}) => {
-  const [userData, setUserData] = useState([]);
+  const [imagesData, setImagesData] = useState([]);
   const [isRefresh, setIsRefresh] = useState(false);
   const [page, setPage] = useState(1);
   
@@ -31,15 +26,12 @@ const FirstScreen = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-        headerLeft: () => setHeaderLeft(images.menu, ()=>{
-           navigation.toggleDrawer();
-        }),
-        headerTitle: () => <HeaderTitle title={'FirstDemo'} />
+        headerTitle: () => <HeaderTitle title={'First Demo'} />
     });
   }, [navigation])
 
   useEffect(()=>{
-    setUserData([]);
+    setImagesData([]);
     if(isFocused) {
       setPage(1);
       getImagesData(1);
@@ -59,6 +51,30 @@ const FirstScreen = ({navigation}) => {
     }
   }, [isRefresh]);
 
+  const getIndexShowColor = (index) => {
+    let color = '';
+
+    for(let i = 0;i <= index; i = i+3){
+      if(i == index) {
+        color = 'red';
+      }
+    }
+
+    for(let i = 1;i <= index; i = i+3){
+      if(i == index) {
+        color = 'yellow';
+      }
+    }
+
+    for(let i = 2;i <= index; i = i+3){
+      if(i == index) {
+        color = 'green';
+      }
+    }
+
+    return color;
+  }
+
   const getImagesData = (page) => {
     const params = {
       page: page,
@@ -68,10 +84,10 @@ const FirstScreen = ({navigation}) => {
         (response) => {
             setIsRefresh(false);
             let data = [
-              ...userData,
-              ...response.data
+              ...imagesData,
+              ...response
             ]
-            setUserData(data);
+            setImagesData(data);
         },
         (error) => {
           setIsRefresh(false);
@@ -79,26 +95,28 @@ const FirstScreen = ({navigation}) => {
       }));
   }
 
-  const renderListView = ({item}) => {
+  const renderListView = ({item, index}) => {
       const title = _.get(item, 'title', '');
       const avatar = _.get(item, 'url', '');
+      let color = getIndexShowColor(index);
        
       return (
          <UserDataView 
            title={title}
            avatar={avatar}
+           backgroundColor={color}
          />
       )
   }
 
   const onRefresh = () => {
-    setUserData([]);
+    setImagesData([]);
     setIsRefresh(true);
   }
 
   const renderEmptyData = () => (
     <View style={{ alignItems: "center", flex: 1, justifyContent: "center" }}>
-        <Text style={{ fontSize: 16, lineHeight: 20, textAlign: "center" }}>{'No data found'}</Text>
+        <Text style={{ fontSize: 16, lineHeight: 20, textAlign: "center" }}>{'No images data found'}</Text>
     </View>
   )
 
@@ -107,8 +125,8 @@ const FirstScreen = ({navigation}) => {
       <StatusBar barStyle="default" backgroundColor={color.GREENTHEME}/>
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
           <FlatList
-              contentContainerStyle={{ flex: userData.length > 0 ? 0 : 1, paddingBottom: 88}}
-              data={userData}
+              contentContainerStyle={{ flex: imagesData.length > 0 ? 0 : 1, paddingBottom: 88}}
+              data={imagesData}
               renderItem={renderListView}
               refreshing={isRefresh}
               onRefresh={() => onRefresh()}
@@ -116,12 +134,13 @@ const FirstScreen = ({navigation}) => {
               ListEmptyComponent={renderEmptyData}
               onEndReachedThreshold={0.5}
               onEndReached={() => { setPage(page + 1) }}
+              initialNumToRender={15}
           />
       </SafeAreaView>
     </>
   );
 };
 
- export default FirstScreen;
+export default FirstScreen;
  
   

@@ -9,15 +9,33 @@ const UserDataView = (props) => {
   const {
     title,
     avatar, 
-    backgroundColor
+    backgroundColor,
+    containerStyle,
+    imageStyle
   } = props;
 
-  return (
-     <View style={[styles.container, {backgroundColor: backgroundColor}]}>
-         <Image source={{ uri: avatar }} style={styles.image}/>
-         <Text style={styles.title}>{title}</Text>
-     </View>
-  )
+  if(backgroundColor == 'red') {
+      return (
+        <View style={[styles.redContainer, {backgroundColor: backgroundColor}]}>
+            <Image source={{ uri: avatar }} style={styles.image}/>
+            <Text style={styles.title}>{title}</Text>
+        </View>
+      )
+  } else if(backgroundColor == 'yellow') {
+    return (
+      <View style={[styles.yellowContainer, {backgroundColor: backgroundColor}]}>
+          <Image source={{ uri: avatar }} style={styles.circleImage}/>
+          <Text style={styles.yellowTitle}>{title}</Text>
+      </View>
+     )
+  } else {
+    return (
+      <View style={[styles.greenContainer, {backgroundColor: backgroundColor}]}>
+          <Text style={styles.title}>{title}</Text>
+          <Image source={{ uri: avatar }} style={styles.image}/>
+      </View>
+    )
+  }
 };
 
 export default UserDataView;

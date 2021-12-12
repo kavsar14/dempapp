@@ -18,3 +18,11 @@ export const Globals = {
     kUserToken: '',
     kRefreshToken: '',
 };
+
+export const Fonts = [ 
+    'Comfortaa-Bold',
+    'Comfortaa-Light',
+    'Comfortaa-Medium',
+    'Comfortaa-Regular',
+    'Comfortaa-SemiBold',
+];
